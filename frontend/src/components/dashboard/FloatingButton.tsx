@@ -112,9 +112,11 @@ export function FloatingButton() {
                       : "bg-card border shadow-sm rounded-tl-sm text-foreground prose prose-sm dark:prose-invert"
                   }`}>
                     {msg.role === "model" ? (
-                      <ReactMarkdown className="markdown-body">
-                        {msg.parts[0].text}
-                      </ReactMarkdown>
+                      <div className="markdown-body">
+                        <ReactMarkdown>
+                          {msg.parts[0].text}
+                        </ReactMarkdown>
+                      </div>
                     ) : (
                       <p className="text-sm whitespace-pre-wrap">{msg.parts[0].text}</p>
                     )}
