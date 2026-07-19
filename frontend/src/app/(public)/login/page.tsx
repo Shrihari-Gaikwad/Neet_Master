@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { BrainCircuit, Loader2, Eye, EyeOff } from "lucide-react";
 
-export default function Login() {
+function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const isResetMode = searchParams.get("reset") === "true";
@@ -192,5 +192,13 @@ export default function Login() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function Login() {
+  return (
+    <Suspense fallback={<div className="flex min-h-[80vh] items-center justify-center"><Loader2 className="animate-spin h-8 w-8 text-primary" /></div>}>
+      <LoginContent />
+    </Suspense>
   );
 }
