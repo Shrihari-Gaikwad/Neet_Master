@@ -21,7 +21,7 @@ export default function SmartNotesPage() {
   useEffect(() => {
     const fetchChapter = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/api/v1/syllabus/chapters/${chapterId}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/syllabus/chapters/${chapterId}`);
         if (res.ok) {
           const data = await res.json();
           setChapter(data);
@@ -44,7 +44,7 @@ export default function SmartNotesPage() {
 
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:8000/api/v1/notes/generate", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/notes/generate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

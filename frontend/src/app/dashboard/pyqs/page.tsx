@@ -43,7 +43,7 @@ export default function PYQPage() {
       if (subjectFilter) params.append("subject", subjectFilter);
       if (difficultyFilter) params.append("difficulty", difficultyFilter);
       
-      const url = `http://localhost:8000/api/v1/pyq${params.toString() ? `?${params.toString()}` : ''}`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/pyq${params.toString() ? `?${params.toString()}` : ''}`;
       
       const res = await fetch(url, {
         headers: {

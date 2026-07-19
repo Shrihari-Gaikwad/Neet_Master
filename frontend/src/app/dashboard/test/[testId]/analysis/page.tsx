@@ -36,7 +36,7 @@ export default function TestAnalysis() {
     const fetchResult = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch(`http://localhost:8000/api/v1/test/${testId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/test/${testId}`, {
           headers: {
             "Authorization": `Bearer ${token}`
           }

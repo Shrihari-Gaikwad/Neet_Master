@@ -31,13 +31,13 @@ export default function ChapterPage() {
     const fetchChapterAndTopics = async () => {
       try {
         // Fetch Chapter details
-        const chapRes = await fetch(`http://localhost:8000/api/v1/syllabus/chapters/${chapterId}`);
+        const chapRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/syllabus/chapters/${chapterId}`);
         if (!chapRes.ok) throw new Error("Failed to fetch chapter");
         const chapData = await chapRes.json();
         setChapter(chapData);
 
         // Fetch Topics for the chapter
-        const topRes = await fetch(`http://localhost:8000/api/v1/syllabus/chapters/${chapterId}/topics`);
+        const topRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/syllabus/chapters/${chapterId}/topics`);
         if (!topRes.ok) throw new Error("Failed to fetch topics");
         const topData = await topRes.json();
         setTopics(topData);

@@ -51,7 +51,7 @@ export default function AIImageSolver() {
       formData.append("image", file);
       if (context) formData.append("context", context);
 
-      const res = await fetch("http://localhost:8000/api/v1/solver/", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/solver/`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${token}`

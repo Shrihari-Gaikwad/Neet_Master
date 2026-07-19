@@ -45,7 +45,7 @@ function SearchContent() {
     setError("");
 
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/search?query=${encodeURIComponent(searchQuery)}&limit=10`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/search?query=${encodeURIComponent(searchQuery)}&limit=10`);
       if (!res.ok) {
         throw new Error("Failed to fetch search results");
       }

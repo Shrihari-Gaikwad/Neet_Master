@@ -50,7 +50,7 @@ export default function ChapterDashboard() {
   useEffect(() => {
     const fetchChapter = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/api/v1/syllabus/chapters/${chapterId}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/syllabus/chapters/${chapterId}`);
         if (!res.ok) throw new Error("Failed to fetch chapter details");
         const data = await res.json();
         setChapter(data);
@@ -68,7 +68,7 @@ export default function ChapterDashboard() {
     if (!chapter) return;
     setIsGeneratingMindMap(true);
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/tutor/mindmap`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/tutor/mindmap`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ chapter_name: chapter.name })
@@ -97,7 +97,7 @@ export default function ChapterDashboard() {
     if (!chapter) return;
     setIsGeneratingTopics(true);
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/tutor/topics`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/tutor/topics`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ chapter_name: chapter.name })

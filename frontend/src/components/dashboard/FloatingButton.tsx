@@ -41,7 +41,7 @@ export function FloatingButton() {
     setIsLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/tutor/chat", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/tutor/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

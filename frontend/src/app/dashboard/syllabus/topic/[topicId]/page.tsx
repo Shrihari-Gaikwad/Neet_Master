@@ -24,7 +24,7 @@ export default function TopicNotesPage() {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/api/v1/syllabus/topics/${topicId}/notes`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/syllabus/topics/${topicId}/notes`);
         if (!res.ok) {
           throw new Error("Failed to fetch or generate notes. Please try again.");
         }

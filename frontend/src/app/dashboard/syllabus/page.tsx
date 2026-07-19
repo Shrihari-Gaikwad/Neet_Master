@@ -33,7 +33,7 @@ export default function Syllabus() {
     const fetchSyllabus = async () => {
       try {
         // Because syllabus is public, no auth token needed for GET
-        const res = await fetch("http://localhost:8000/api/v1/syllabus/subjects");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/syllabus/subjects`);
         if (!res.ok) {
           throw new Error("Failed to fetch syllabus data");
         }

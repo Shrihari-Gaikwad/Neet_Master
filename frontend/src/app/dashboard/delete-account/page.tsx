@@ -32,7 +32,7 @@ export default function DeleteAccount() {
 
       // We would call a DELETE /api/v1/users/me endpoint here.
       // Since it's MVP, we simulate the request:
-      const res = await fetch("http://localhost:8000/api/v1/auth/login", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/auth/login`, {
          // Just a fake check for the MVP to see if the server responds
          // We should implement a real DELETE endpoint in FastAPI later.
          method: "GET"

@@ -38,7 +38,7 @@ export default function ExamInterface() {
   const abandonTest = async () => {
     try {
       const token = localStorage.getItem("token");
-      await fetch(`http://localhost:8000/api/v1/test/${testId}`, {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/test/${testId}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${token}` }
       });
@@ -97,7 +97,7 @@ export default function ExamInterface() {
     const fetchTest = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch(`http://localhost:8000/api/v1/test/${testId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/test/${testId}`, {
           headers: {
             "Authorization": `Bearer ${token}`
           }
@@ -166,7 +166,7 @@ export default function ExamInterface() {
       const initialTime = test?.total_marks === 360 ? 5400 : 10800;
       const timeTaken = initialTime - timeLeft;
       
-      const res = await fetch(`http://localhost:8000/api/v1/test/${testId}/submit`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/test/${testId}/submit`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",

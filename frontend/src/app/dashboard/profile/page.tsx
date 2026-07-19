@@ -49,7 +49,7 @@ export default function ProfilePage() {
     }
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/auth/me", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/auth/me`, {
         headers: {
           "Authorization": `Bearer ${token}`
         }
@@ -88,7 +88,7 @@ export default function ProfilePage() {
     setError("");
     
     try {
-      const res = await fetch("http://localhost:8000/api/v1/auth/me", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/auth/me`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -148,7 +148,7 @@ export default function ProfilePage() {
       const formData = new FormData();
       formData.append("file", croppedBlob, "profile.jpg");
 
-      const res = await fetch("http://localhost:8000/api/v1/auth/me/photo", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/auth/me/photo`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${token}`

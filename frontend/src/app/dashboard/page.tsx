@@ -50,7 +50,7 @@ export default function Dashboard() {
 
   const fetchDashboardData = async (token: string) => {
     try {
-      const res = await fetch("http://localhost:8000/api/v1/analytics/dashboard", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/analytics/dashboard`, {
         headers: { "Authorization": `Bearer ${token}` }
       });
       if (res.ok) {

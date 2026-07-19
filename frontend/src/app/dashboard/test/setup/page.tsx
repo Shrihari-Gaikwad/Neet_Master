@@ -45,7 +45,7 @@ export default function TestSetup() {
     const fetchTree = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch("http://localhost:8000/api/v1/syllabus/tree", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/syllabus/tree`, {
           headers: { "Authorization": `Bearer ${token}` }
         });
         if (!res.ok) throw new Error("Failed to load syllabus");
@@ -133,7 +133,7 @@ export default function TestSetup() {
 
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:8000/api/v1/test/generate", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/test/generate`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
