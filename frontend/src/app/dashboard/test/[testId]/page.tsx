@@ -142,12 +142,6 @@ export default function ExamInterface() {
     return () => clearInterval(timer);
   }, [test]);
 
-  const handleOptionSelect = (qId: number, option: string) => {
-    // Actually map index to A,B,C,D
-    // Wait, the API submits 'selected_option' as A,B,C,D. We should map the option index to the letter.
-    const letter = ["A", "B", "C", "D"][option];
-    setAnswers(prev => ({ ...prev, [qId]: letter }));
-  };
 
   const toggleReview = (qId: number) => {
     setMarkedForReview(prev => {
