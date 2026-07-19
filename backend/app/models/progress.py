@@ -7,7 +7,7 @@ class UserProgress(Base):
     __tablename__ = "user_progress"
     
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     chapter_id = Column(Integer, ForeignKey("chapters.id"), nullable=False)
     
     is_completed = Column(Boolean, default=False)
@@ -22,7 +22,7 @@ class UserBookmark(Base):
     __tablename__ = "user_bookmarks"
     
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     
     # Polymorphic-like association to allow bookmarking different things
     item_type = Column(String, nullable=False) # 'question', 'note', 'topic', 'flashcard'

@@ -29,7 +29,7 @@ class Test(Base):
     __tablename__ = "tests"
     
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     
     title = Column(String, nullable=False) # E.g., "Full Syllabus Mock Test 1"
     
