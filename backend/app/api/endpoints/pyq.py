@@ -12,9 +12,9 @@ class PYQResponse(BaseModel):
     text: str
     options: List[str]
     correct_answer: str
-    explanation: Optional[str]
-    difficulty: str
-    year: int
+    explanation: Optional[str] = None
+    difficulty: Optional[str] = "Medium"
+    year: Optional[int] = None
     subject: str
 
     class Config:
