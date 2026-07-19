@@ -45,10 +45,8 @@ def upgrade() -> None:
     sa.Column('year', sa.Integer(), nullable=True),
     sa.Column('subject', sa.String(), nullable=False),
     sa.Column('chapter_id', sa.Integer(), nullable=True),
-    sa.Column('topic_id', sa.Integer(), nullable=True),
     sa.Column('is_pyq', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['chapter_id'], ['chapters.id'], ),
-    sa.ForeignKeyConstraint(['topic_id'], ['topics.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_questions_id'), 'questions', ['id'], unique=False)

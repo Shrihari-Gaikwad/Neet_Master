@@ -17,13 +17,11 @@ class Question(Base):
     
     subject = Column(String, nullable=False) # Physics, Chemistry, Biology
     chapter_id = Column(Integer, ForeignKey("chapters.id"), nullable=True)
-    topic_id = Column(Integer, ForeignKey("topics.id"), nullable=True)
     
     # Is it a real PYQ or AI-generated?
     is_pyq = Column(Boolean, default=True)
     
     chapter = relationship("Chapter")
-    topic = relationship("Topic")
 
 class Test(Base):
     __tablename__ = "tests"
