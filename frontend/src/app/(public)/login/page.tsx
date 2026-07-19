@@ -59,9 +59,19 @@ function LoginContent() {
     setSuccess("");
 
     try {
-      // In a real app we'd first send an OTP/Link, but for MVP we will just let them change it if they know their email
-      // Wait, we didn't build a backend reset password endpoint yet.
-      // I will simulate success for the UI right now and we can add the endpoint if requested.
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://neet-master.onrender.com"}/api/v1/auth/forgot-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.detail || "An error occurred");
+      }
+
       setSuccess("If this email exists, a password reset link has been sent.");
     } catch (err: any) {
       setError("An error occurred");

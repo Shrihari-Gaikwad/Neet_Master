@@ -16,6 +16,11 @@ class Settings(BaseSettings):
     GEMINI_API_KEY: str = ""
     PINECONE_API_KEY: str = ""
     
+    # Email / SMTP
+    SMTP_EMAIL: str = ""
+    SMTP_PASSWORD: str = ""
+    FRONTEND_URL: str = "http://localhost:3000"
+    
     class Config:
         env_file = ".env"
 

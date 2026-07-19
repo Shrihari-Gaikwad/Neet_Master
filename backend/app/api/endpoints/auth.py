@@ -1,16 +1,72 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from datetime import timedelta
+import smtplib
+from email.message import EmailMessage
 
 from app.db.database import get_db
 from app.api import deps
 from app.models.user import User
-from app.schemas.user import UserCreate, UserResponse, UserUpdate, Token
-from app.core.security import get_password_hash, verify_password, create_access_token
+from app.schemas.user import UserCreate, UserResponse, UserUpdate, Token, ForgotPassword, ResetPassword
+from app.core.security import get_password_hash, verify_password, create_access_token, create_reset_token, verify_reset_token
 from app.core.config import settings
 
 router = APIRouter()
+
+def send_reset_email(email_to: str, reset_link: str):
+    if not settings.SMTP_EMAIL or not settings.SMTP_PASSWORD:
+        print(f"Would send email to {email_to} with link: {reset_link}")
+        return
+
+    msg = EmailMessage()
+    msg.set_content(f"Click the link to reset your password: {reset_link}\nThis link will expire in 15 minutes.")
+    msg["Subject"] = "Password Reset Request"
+    msg["From"] = settings.SMTP_EMAIL
+    msg["To"] = email_to
+
+    try:
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        server.login(settings.SMTP_EMAIL, settings.SMTP_PASSWORD)
+        server.send_message(msg)
+        server.quit()
+    except Exception as e:
+        print(f"Error sending email: {e}")
+
+@router.post("/forgot-password")
+def forgot_password(
+    data: ForgotPassword, 
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db)
+):
+    user = db.query(User).filter(User.email == data.email).first()
+    if user:
+        token = create_reset_token(user.email)
+        reset_link = f"{settings.FRONTEND_URL}/reset-password?token={token}"
+        background_tasks.add_task(send_reset_email, user.email, reset_link)
+    
+    # Always return success to prevent email enumeration
+    return {"message": "If that email exists, a password reset link has been sent."}
+
+@router.post("/reset-password")
+def reset_password(
+    data: ResetPassword,
+    db: Session = Depends(get_db)
+):
+    email = verify_reset_token(data.token)
+    if not email:
+        raise HTTPException(status_code=400, detail="Invalid or expired reset token")
+        
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+        
+    user.hashed_password = get_password_hash(data.new_password)
+    db.add(user)
+    db.commit()
+    return {"message": "Password successfully updated"}
+
 
 @router.post("/register", response_model=UserResponse)
 def register_user(user_in: UserCreate, db: Session = Depends(get_db)):
