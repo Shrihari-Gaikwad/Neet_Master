@@ -2,6 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { Loader2, Search, Filter, BookOpen, Target, CheckCircle2, XCircle } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 
 interface PYQ {
   id: number;
@@ -157,9 +161,12 @@ export default function PYQPage() {
                   </span>
                 </div>
 
-                <h3 className="text-lg font-medium mb-6">
-                  {idx + 1}. {q.text}
-                </h3>
+                <div className="text-lg font-medium mb-6 flex gap-2">
+                  <span>{idx + 1}.</span>
+                  <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+                    {q.text}
+                  </ReactMarkdown>
+                </div>
 
                 <div className="grid md:grid-cols-2 gap-3 mb-6">
                   {q.options.map((option, oIdx) => {
@@ -184,8 +191,12 @@ export default function PYQPage() {
                         disabled={isRevealed}
                         className={`text-left p-4 rounded-2xl border-2 transition-all ${style}`}
                       >
-                        <span className="font-bold mr-2">{optLetter}.</span>
-                        {option.replace(/^Option [A-D]:?\s*/i, '')}
+                        <span className="font-bold mr-2 shrink-0">{optLetter}.</span>
+                        <div className="inline-block overflow-x-auto">
+                          <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+                            {option.replace(/^Option [A-D]:?\\s*/i, '')}
+                          </ReactMarkdown>
+                        </div>
                       </button>
                     );
                   })}
@@ -210,7 +221,11 @@ export default function PYQPage() {
                     )}
                     <div>
                       <h4 className="font-bold text-lg mb-1">{isCorrect ? "Correct!" : `Incorrect. The answer is ${q.correct_answer}`}</h4>
-                      <p className="opacity-90 leading-relaxed">{q.explanation}</p>
+                      <div className="opacity-90 leading-relaxed">
+                        <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+                          {q.explanation}
+                        </ReactMarkdown>
+                      </div>
                     </div>
                   </div>
                 )}
